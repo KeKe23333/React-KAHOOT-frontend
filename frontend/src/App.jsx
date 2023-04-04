@@ -1,10 +1,10 @@
 import React from 'react';
 
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-import Login from './pages/login';
+import Login from './pages/sign';
 
-const About = () => {
-  return <div>About</div>;
+const Manager = () => {
+  return <div>Manager</div>;
 };
 
 const Profile = () => {
@@ -12,11 +12,13 @@ const Profile = () => {
 };
 
 function App () {
+  const [token, setToken] = React.useState(null);
+  console.log('token is: ' + token);
   return (
     <BrowserRouter>
       <Routes>
-        <Route path="/" element={<Login />} />
-        <Route path="/about" element={<About />} />
+        <Route path="/" element={<Login onSuccess={setToken} />} />
+        <Route path="/manager" element={<Manager />} />
         <Route path="/profile" element={<Profile />} />
       </Routes>
     </BrowserRouter>
