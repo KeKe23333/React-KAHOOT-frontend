@@ -1,8 +1,9 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import './index.css'
 import classNames from 'classnames'
 import Input from '../../components/input';
 import fetchRequest from '../../components/fetchRequest';
+import { useNavigate } from 'react-router-dom';
 
 export default function Login ({ onSuccess }) {
   const [showSignUpPanel, setShowSignUpPanel] = React.useState(false);
@@ -13,6 +14,12 @@ export default function Login ({ onSuccess }) {
   const [signUpEmail, setSignUpEmail] = React.useState('');
   const [signUpPassword, setSignUpPassword] = React.useState('');
   const [signUpConfirmPassword, setSignUpConfirmPassword] = React.useState('');
+  const navigate = useNavigate();
+  const token = localStorage.getItem('token')
+  // check if user is alread login
+  useEffect(() => {
+    if (token) { navigate('/Dashboard') }
+  }, [])
   const handleSignIn = (event) => {
     event.preventDefault();
     console.log('we have input')
@@ -25,7 +32,7 @@ export default function Login ({ onSuccess }) {
       password: signUpPassword,
       name: signUpUsername,
     }
-    fetchRequest('auth/register', 'POST', payload, onSuccess);
+    fetchRequest('auth/register', 'POST', payload);
   }
   return (
   <div className='login-body'>
