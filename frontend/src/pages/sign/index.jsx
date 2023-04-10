@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import './index.css'
 import classNames from 'classnames'
 import Input from '../../components/input';
-import fetchRequest from '../../components/fetchRequest';
+import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 
 export default function Login ({ onSuccess }) {
@@ -18,21 +18,36 @@ export default function Login ({ onSuccess }) {
   const token = localStorage.getItem('token')
   // check if user is alread login
   useEffect(() => {
-    if (token) { navigate('/Dashboard') }
+    if (token) { navigate('/main') }
   }, [])
   const handleSignIn = (event) => {
     event.preventDefault();
     console.log('we have input')
     console.log(signInEmail)
+    if (signInEmail && signInPassword) {
+      const payload = {
+        email: signInEmail,
+        password: signInPassword,
+      }
+      fetchRequest('auth/login', 'POST', payload).then(() => {
+        const token = localStorage.getItem('token')
+        if (token) { navigate('/main') } else { alert('Wrong email or password') }
+      });
+    }
   }
   const handleRegister = (event) => {
     event.preventDefault();
-    const payload = {
-      email: signUpEmail,
-      password: signUpPassword,
-      name: signUpUsername,
+    if (signUpPassword === signUpConfirmPassword && signUpEmail && signUpPassword && signUpUsername) {
+      const payload = {
+        email: signUpEmail,
+        password: signUpPassword,
+        name: signUpUsername,
+      }
+      fetchRequest('auth/register', 'POST', payload).then(() => {
+        const token = localStorage.getItem('token')
+        if (token) { navigate('/main') }
+      });
     }
-    fetchRequest('auth/register', 'POST', payload);
   }
   return (
   <div className='login-body'>
