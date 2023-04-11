@@ -10,7 +10,7 @@ function getItem (label, key, icon, children) {
     label,
   };
 }
-const { Header, Content, Footer, Sider } = Layout;
+const { Content, Footer, Sider } = Layout;
 const items = [
   getItem('Dashboard', 'dashboard', <PieChartOutlined />),
   getItem('About', 'about', <DesktopOutlined />),
@@ -24,21 +24,24 @@ const items = [
 ];
 
 export default function Main () {
-  const {
-    token: { colorBgContainer },
-  } = theme.useToken();
+  const { token: { colorBgContainer }, } = theme.useToken();
   const navigate = useNavigate();
   // 这里可能会内存泄漏
   useEffect(() => {
-    const tok = localStorage.getItem('token');
-    if (!tok) { navigate('/login') }
-    return () => {};
+    const token = localStorage.getItem('token');
+    if (!token) {
+      navigate('/login')
+      return () => {}
+    } else { navigate('/main/dashboard') }
   }, [])
   function manuChange (item) {
     console.log('item is ', item);
     navigate(`/main/${item.key}`)
   }
-
+  function logout () {
+    localStorage.removeItem('token');
+    navigate('/login');
+  }
   return (
     <Layout hasSider>
       <Sider
@@ -59,6 +62,7 @@ export default function Main () {
           }}
         />
         <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} onClick={manuChange} />
+        <button style={{ marginLeft: 15, marginTop: 40 }} onClick={logout}>Logout</button>
       </Sider>
       <Layout
         className="site-layout"
@@ -66,12 +70,12 @@ export default function Main () {
           marginLeft: 200,
         }}
       >
-        <Header
+        {/* <Header
           style={{
             padding: 0,
             background: colorBgContainer,
           }}
-        />
+        /> */}
         <Content
           style={{
             margin: '24px 16px 0',

@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import './index.css'
 import classNames from 'classnames'
-import Input from '../../components/input';
+import Input from '../../components/input'
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 
@@ -73,7 +73,7 @@ export default function Login ({ onSuccess }) {
                 <h1>Sign In</h1>
                 <Input type="email" placeholder="Email" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
                 <Input type="password" placeholder="Password" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
-                <a href="#">Forget password?</a>
+                <a className='forget-pass' href=''>Forget password?</a>
                 <button>SING IN</button>
             </form>
         </div>
