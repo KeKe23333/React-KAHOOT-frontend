@@ -1,7 +1,7 @@
-import { List } from 'antd';
+import { List, Button } from 'antd';
 import React from 'react';
 const data = Array.from({
-  length: 23,
+  length: 5,
 }).map((_, i) => ({
   href: 'https://ant.design',
   title: `ant design part ${i}`,
@@ -13,6 +13,8 @@ const data = Array.from({
 }));
 export default function Dashboard () {
   return (
+  <>
+  <Button type="dashed" block>+ Add a Game!</Button>
   <List
     itemLayout="vertical"
     size="large"
@@ -25,7 +27,6 @@ export default function Dashboard () {
     dataSource={data}
     footer={
       <div>
-        <b>ant design</b> footer part
       </div>
     }
     renderItem={(item) => (
@@ -47,5 +48,6 @@ export default function Dashboard () {
       </List.Item>
     )}
   />
+  </>
   )
 }

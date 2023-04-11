@@ -25,14 +25,18 @@ const items = [
 
 export default function Main () {
   const { token: { colorBgContainer }, } = theme.useToken();
+  const [load, setLoad] = React.useState(true);
+  const [token, setToken] = React.useState(localStorage.getItem('token'));
   const navigate = useNavigate();
   // 这里可能会内存泄漏
   useEffect(() => {
-    const token = localStorage.getItem('token');
     if (!token) {
       navigate('/login')
       return () => {}
-    } else { navigate('/main/dashboard') }
+    } else {
+      setLoad(false);
+      navigate('/main/dashboard')
+    }
   }, [])
   function manuChange (item) {
     console.log('item is ', item);
@@ -40,7 +44,11 @@ export default function Main () {
   }
   function logout () {
     localStorage.removeItem('token');
-    navigate('/login');
+    setToken(null);
+    navigate('/');
+  }
+  if (load) {
+    return <div>loading</div>;
   }
   return (
     <Layout hasSider>
@@ -87,7 +95,7 @@ export default function Main () {
               padding: 24,
               textAlign: 'center',
               background: colorBgContainer,
-              minHeight: 650,
+              minHeight: 838,
             }}
           >
           {/* ===========================the component places here============================ */}
