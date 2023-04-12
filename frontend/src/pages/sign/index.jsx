@@ -29,9 +29,11 @@ export default function Login ({ onSuccess }) {
         email: signInEmail,
         password: signInPassword,
       }
-      fetchRequest('auth/login', 'POST', payload).then(() => {
-        const token = localStorage.getItem('token')
-        if (token) { navigate('/main') } else { alert('Wrong email or password') }
+      fetchRequest('auth/login', 'POST', payload).then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          navigate('/main')
+        } else { alert('Wrong email or password') }
       });
     }
   }
@@ -43,9 +45,13 @@ export default function Login ({ onSuccess }) {
         password: signUpPassword,
         name: signUpUsername,
       }
-      fetchRequest('auth/register', 'POST', payload).then(() => {
-        const token = localStorage.getItem('token')
-        if (token) { navigate('/main') }
+      fetchRequest('auth/register', 'POST', payload).then((data) => {
+        if (data.token) {
+          localStorage.setItem('token', data.token)
+          navigate('/main')
+        } else {
+          alert('Email address already registered')
+        }
       });
     }
   }

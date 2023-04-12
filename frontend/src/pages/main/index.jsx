@@ -2,30 +2,9 @@ import { TeamOutlined, UserOutlined, FileOutlined, PieChartOutlined, DesktopOutl
 import { Layout, Menu, theme } from 'antd';
 import React, { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
-function getItem (label, key, icon, children) {
-  return {
-    key,
-    icon,
-    children,
-    label,
-  };
-}
-const { Content, Footer, Sider } = Layout;
-const items = [
-  getItem('Dashboard', 'dashboard', <PieChartOutlined />),
-  getItem('About', 'about', <DesktopOutlined />),
-  getItem('User', 'user', <UserOutlined />, [
-    getItem('Tom', '3'),
-    getItem('Bill', '4'),
-    getItem('Alex', '5'),
-  ]),
-  getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
-  getItem('Files', '9', <FileOutlined />),
-];
 
 export default function Main () {
   const { token: { colorBgContainer }, } = theme.useToken();
-  const [load, setLoad] = React.useState(true);
   const [token, setToken] = React.useState(localStorage.getItem('token'));
   const navigate = useNavigate();
   // 这里可能会内存泄漏
@@ -34,22 +13,40 @@ export default function Main () {
       navigate('/login')
       return () => {}
     } else {
-      setLoad(false);
       navigate('/main/dashboard')
+      return () => {}
     }
-  }, [])
+  }, [token])
+
+  function getItem (label, key, icon, children) {
+    return {
+      key,
+      icon,
+      children,
+      label,
+    };
+  }
+  const { Content, Footer, Sider } = Layout;
+  const items = [
+    getItem('Dashboard', 'dashboard', <PieChartOutlined />),
+    getItem('About', 'about', <DesktopOutlined />),
+    getItem('User', 'user', <UserOutlined />, [
+      getItem('Tom', '3'),
+      getItem('Bill', '4'),
+      getItem('Alex', '5'),
+    ]),
+    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Files', '9', <FileOutlined />),
+  ];
   function manuChange (item) {
     console.log('item is ', item);
     navigate(`/main/${item.key}`)
   }
   function logout () {
     localStorage.removeItem('token');
-    setToken(null);
-    navigate('/');
+    setToken(null);// junmp to login page
   }
-  if (load) {
-    return <div>loading</div>;
-  }
+
   return (
     <Layout hasSider>
       <Sider
@@ -95,7 +92,7 @@ export default function Main () {
               padding: 24,
               textAlign: 'center',
               background: colorBgContainer,
-              minHeight: 838,
+              minHeight: 945,
             }}
           >
           {/* ===========================the component places here============================ */}
