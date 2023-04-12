@@ -4,12 +4,15 @@ export default async function fetchRequest (path, methods, payload) {
       method: methods,
       headers: {
         'Content-type': 'application/json',
+        Authorization: 'Bearer ' + localStorage.getItem('token')
       },
       body: JSON.stringify(payload)
     }
+    if (path === 'auth/login' || path === 'auth/register') {
+      delete fetchBody.headers.Authorization
+    }
     if (methods === 'GET') {
       delete fetchBody.body
-      fetchBody.headers.Authorization = 'Bearer ' + localStorage.getItem('token')
     }
     const response = await fetch(`http://localhost:5005/admin/${path}`, fetchBody)
     const data = await response.json();

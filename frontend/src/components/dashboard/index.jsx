@@ -1,19 +1,19 @@
 import { List, Button, Input, Space } from 'antd';
 import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
-const data = Array.from({
-  length: 5,
-}).map((_, i) => ({
-  href: 'https://ant.design',
-  title: `ant design part ${i}`,
-  avatar: `https://joesch.moe/api/v1/random?key=${i}`,
-  description:
-    'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-  content:
-    'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-}));
+// const listData = Array.from({
+//   length: 5,
+// }).map((_, i) => ({
+//   href: 'https://ant.design',
+//   title: `ant design part ${i}`,
+//   avatar: `https://joesch.moe/api/v1/random?key=${i}`,
+//   description:
+//     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
+//   content:
+//     'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
+// }));
 export default function Dashboard () {
-  const [quizzes, setQuizzes] = React.useState('');
+  const [quizzes, setQuizzes] = React.useState([]);
   const [showCreateGame, setShowCreateGame] = React.useState(false);
   const [newGameName, setNewGameName] = React.useState('');
   // init page
@@ -23,17 +23,21 @@ export default function Dashboard () {
       setQuizzes(data.quizzes);
     });
   }, [])
+  // Handle a new game creation
   function handleCreateGame () {
-    console.log('quizzes is', quizzes);
-
-    console.log('we have input', newGameName)
-    // const payload = {
-    //   name: newGameName,
-    // }
-    // fetchRequest('quiz', 'POST', payload).then((data) => {
-    //   console.log('data is', data);
-    //   setQuizzes(data.quizzes);
-    // });
+    const payload = {
+      name: newGameName,
+    }
+    fetchRequest('quiz/new', 'POST', payload).then(() => {
+      setNewGameName('');
+      setShowCreateGame(false);
+      // refresh the game list
+      fetchRequest('quiz', 'GET', null).then((data) => {
+        setQuizzes(data.quizzes);
+        console.log(quizzes)
+        alert('Game creat success!')
+      });
+    });
   }
   // ============================================Page Element============================================
   return (
@@ -55,7 +59,7 @@ export default function Dashboard () {
       },
       pageSize: 4,
     }}
-    dataSource={data}
+    dataSource={quizzes}
     footer={
       <div>
       </div>
@@ -72,7 +76,7 @@ export default function Dashboard () {
         }
       >
         <List.Item.Meta
-          title={<a href={item.href}>{item.title}</a>}
+          title={<a href={item.href}>{item.name}</a>}
           description={item.description}
         />
         {item.content}
