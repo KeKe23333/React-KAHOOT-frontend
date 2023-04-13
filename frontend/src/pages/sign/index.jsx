@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import './index.css'
-import classNames from 'classnames'
 import Input from '../../components/Input'
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
@@ -8,16 +7,10 @@ import styles from './index.module.css'
 
 export default function Login () {
   const [showSignUpPanel, setShowSignUpPanel] = React.useState(false);
-  const changePanel = () => { setShowSignUpPanel(!showSignUpPanel) }
-
-  // function changeClass() {
-  //   if(showSignUpPanel){
-  //     return styles.container
-  //   }else{
-  //     return [styles.container,styles.rightPanelActive].join(' ')
-  //   }
-  // }
-
+  const changePanel = () => {
+    setShowSignUpPanel(!showSignUpPanel)
+    console.log('ShowSignUpPanel', showSignUpPanel)
+  }
   const [signInEmail, setSignInEmail] = React.useState('');
   const [signInPassword, setSignInPassword] = React.useState('');
   const [signUpUsername, setSignUpUsername] = React.useState('');
@@ -65,17 +58,16 @@ export default function Login () {
       });
     }
   }
+  // classNames({
+  //   container: true,
+  //   'right-panel-active': showSignUpPanel
+  // })
   return (
   <div className={styles.loginPage}>
   <div className={styles.loginBody}>
     <span className={styles.webLogo}>BigBain Technology </span>
-    <div className={
-        classNames({
-          container: true,
-          'right-panel-active': showSignUpPanel
-        })} id="login-box">
-
-        <div className="form-container sign-up-container">
+    <div className={showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id="login-box">
+        <div className={[styles.formContainer, styles.signUpContainer].join(' ')}>
             <form onSubmit={handleRegister}>
                 <h1>Register</h1>
                 <Input type="name" placeholder="Useranme" value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
