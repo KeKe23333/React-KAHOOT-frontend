@@ -1,6 +1,8 @@
 import { List, Button, Input, Space } from 'antd';
 import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
+import { useNavigate } from 'react-router-dom';
+import Notification from '../../components/Notification';
 // const listData = Array.from({
 //   length: 5,
 // }).map((_, i) => ({
@@ -16,6 +18,7 @@ export default function Dashboard () {
   const [quizzes, setQuizzes] = React.useState([]);
   const [showCreateGame, setShowCreateGame] = React.useState(false);
   const [newGameName, setNewGameName] = React.useState('');
+  const navigate = useNavigate();
   // init page
   useEffect(() => {
     fetchRequest('quiz', 'GET', null).then((data) => {
@@ -25,6 +28,10 @@ export default function Dashboard () {
   }, [])
   // Handle a new game creation
   function handleCreateGame () {
+    if (newGameName === '') {
+      alert('Game name cannot be empty!');
+      return;
+    }
     const payload = {
       name: newGameName,
     }
@@ -35,10 +42,11 @@ export default function Dashboard () {
       fetchRequest('quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
         console.log(quizzes)
-        alert('Game creat success!')
+        Notification();
       });
     });
   }
+
   // ============================================Page Element============================================
   return (
   <>
@@ -76,7 +84,7 @@ export default function Dashboard () {
         }
       >
         <List.Item.Meta
-          title={<a href={item.href}>{item.name}</a>}
+          title={<a onClick={() => navigate('/main/about')}>{item.name}</a>}
           description={item.description}
         />
         {item.content}

@@ -12,11 +12,8 @@ export default function Main () {
     if (!token) {
       navigate('/login')
       return () => {}
-    } else {
-      navigate('/main/dashboard')
-      return () => {}
     }
-  }, [token])
+  }, [])
 
   function getItem (label, key, icon, children) {
     return {
@@ -45,6 +42,7 @@ export default function Main () {
   function logout () {
     localStorage.removeItem('token');
     setToken(null);// junmp to login page
+    location.pathname = '/login';
   }
 
   return (

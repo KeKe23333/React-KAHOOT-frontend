@@ -1,3 +1,30 @@
+.loginPage{
+    box-sizing: border-box;
+    margin: 0;
+    min-height: auto;
+    background-image: linear-gradient(120deg,#3498db,#8e44ad);;
+}
+.loginBody {
+    font-family: 'Montserrat',sans-serif;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 120vh;
+    margin: -20px 0 50px;
+}
+.webLogo {
+    font-weight: bold;
+    font-size: 40px;
+    margin-bottom: 20px;
+    color: #fff;
+}
+.forgetPass {
+    color: #333;
+    font-size: 14px;
+    text-decoration: none;
+    margin: 15px 0;
+}
 .container {
     background: #fff;
     border-radius: 10px;
@@ -192,24 +219,24 @@ button.ghost {
     transform: translateY(-20%);
 }
 
-.container.right-panel-active .sign-in-container {
+.container.rightPanelActive .sign-in-container {
     transform: translateY(100%);
 }
 
-.container.container.right-panel-active .overlay-container {
+.container.container.rightPanelActive .overlay-container {
     transform: translateX(-100%);
 }
-.container.right-panel-active .sign-up-container {
+.container.rightPanelActive .sign-up-container {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
 }
-.container.container.right-panel-active .overlay {
+.container.container.rightPanelActive .overlay {
     transform: translateX(50%);
 }
-.container.container.right-panel-active .overlay-left {
+.container.container.rightPanelActive .overlay-left {
     transform: translateY(0);
 }
-.container.container.right-panel-active .overlay-right {
+.container.container.rightPanelActive .overlay-right {
     transform: translateY(20%);
 }
