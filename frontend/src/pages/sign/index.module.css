@@ -37,7 +37,7 @@
 
 }
 
-.form-container form {
+.formContainer form {
     background: #fff;
     display: flex;
     flex-direction: column;
@@ -46,70 +46,7 @@
     justify-content: center;
     text-align: center;
 }
-.social-container {
-    margin: 20px 0;
-}
 
-.social-container a {
-    border: 1px solid #ddd;
-    border-radius: 50%;
-    display: inline-flex;
-    justify-content: center;
-    align-items: center;
-    margin: 0 5px;
-    height: 40px;
-    width: 40px;
-}
-
-.social-container a:hover {
-    background-color: #eee;
-
-}
-
-.txtb {
-    border-bottom: 2px solid #adadad;
-    position: relative;
-    margin: 10px 0;
-}
-
-.txtb input {
-    font-size: 15px;
-    color: #333;
-    border: none;
-    width: 100%;
-    outline: none;
-    background: none;
-    padding: 0 3px;
-    height: 35px;
-}
-
-.txtb span::before {
-    content: attr(data-placeholder);
-    position: absolute;
-    top: 50%;
-    left: 5px;
-    color: #adadad;
-    transform: translateY(-50%);
-    transition: .5s;
-}
-.txtb span::after {
-    content: '';
-    position: absolute;
-    left: 0%;
-    top: 100%;
-    width: 0%;
-    height: 2px;
-    background-image: linear-gradient(120deg,#3498db,#8e44ad);
-    transition: .5s;
-}
-
-.focus + span::before {
-    top: -5px;
-}
-
-.focus + span::after {
-    width: 100%;
-}
 
 button {
     border-radius: 20px;
@@ -138,14 +75,14 @@ button.ghost {
     border-color: #fff;
 }
 
-.form-container {
+.formContainer {
     position: absolute;
     top: 0;
     height: 100%;
     transition: all .6s ease-in-out;
 }
 
-.form-container button {
+.formContainer button {
     background: linear-gradient(120deg, #3498db, #8e44ad);
     border: none;
     background-size: 200%;
@@ -153,29 +90,29 @@ button.ghost {
     transition: .5s;
 }
 
-.form-container button:hover {
+.formContainer button:hover {
     background-position: right;
 }
 
-.sign-in-container {
+.signInContainer {
     left: 0;
     width: 50%;
     z-index: 2;
 }
-.sign-in-container form a {
+.signInContainer form a {
     position: relative;
     left: 100px;
 }
-.sign-up-container {
+.signUpContainer {
     left: 0;
     width: 50%;
     z-index: 1;
     opacity: 0;
 }
-.sign-up-container button {
+.signUpContainer button {
     margin-top: 20px;
 }
-.overlay-container {
+.overlayContainer {
     position:absolute;
     top: 0;
     left: 50%;
@@ -195,7 +132,7 @@ button.ghost {
     transform: translateY(0);
     transition: transform .6s ease-in-out;
 }
-.overlay-panel {
+.overlayPanel {
     position: absolute;
     top: 0;
     display: flex;
@@ -209,24 +146,24 @@ button.ghost {
     transform: translateY(0);
     transition: transform .6s ease-in-out;
 }
-.overlay-right {
+.overlayRight {
     right: 0;
     transform: translateY(0);
     
 }
 
-.overlay-left {
+.overlayLeft {
     transform: translateY(-20%);
 }
 
-.container.rightPanelActive .sign-in-container {
+.container.rightPanelActive .signInContainer {
     transform: translateY(100%);
 }
 
-.container.container.rightPanelActive .overlay-container {
+.container.container.rightPanelActive .overlayContainer {
     transform: translateX(-100%);
 }
-.container.rightPanelActive .sign-up-container {
+.container.rightPanelActive .signUpContainer {
     transform: translateX(100%);
     opacity: 1;
     z-index: 5;
@@ -234,9 +171,9 @@ button.ghost {
 .container.container.rightPanelActive .overlay {
     transform: translateX(50%);
 }
-.container.container.rightPanelActive .overlay-left {
+.container.container.rightPanelActive .overlayLeft {
     transform: translateY(0);
 }
-.container.container.rightPanelActive .overlay-right {
+.container.container.rightPanelActive .overlayRight {
     transform: translateY(20%);
 }

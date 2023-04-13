@@ -1,5 +1,4 @@
 import React, { useEffect } from 'react'
-import './index.css'
 import Input from '../../components/Input'
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
@@ -9,7 +8,6 @@ export default function Login () {
   const [showSignUpPanel, setShowSignUpPanel] = React.useState(false);
   const changePanel = () => {
     setShowSignUpPanel(!showSignUpPanel)
-    console.log('ShowSignUpPanel', showSignUpPanel)
   }
   const [signInEmail, setSignInEmail] = React.useState('');
   const [signInPassword, setSignInPassword] = React.useState('');
@@ -58,15 +56,11 @@ export default function Login () {
       });
     }
   }
-  // classNames({
-  //   container: true,
-  //   'right-panel-active': showSignUpPanel
-  // })
   return (
   <div className={styles.loginPage}>
   <div className={styles.loginBody}>
     <span className={styles.webLogo}>BigBain Technology </span>
-    <div className={showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id="login-box">
+    <div className={!showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id="login-box">
         <div className={[styles.formContainer, styles.signUpContainer].join(' ')}>
             <form onSubmit={handleRegister}>
                 <h1>Register</h1>
@@ -77,7 +71,8 @@ export default function Login () {
                 <button>REGISTER</button>
             </form>
         </div>
-        <div className="form-container sign-in-container">
+
+        <div className={[styles.formContainer, styles.signInContainer].join(' ')}>
             <form onSubmit={handleSignIn}>
                 <h1>Sign In</h1>
                 <Input type="email" placeholder="Email" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
@@ -87,17 +82,17 @@ export default function Login () {
             </form>
         </div>
 
-        <div className="overlay-container">
-                <div className="overlay">
-                    <div className="overlay-panel overlay-left">
+        <div className={styles.overlayContainer}>
+                <div className={styles.overlay}>
+                    <div className={[styles.overlayPanel, styles.overlayLeft].join(' ')}>
                         <h1>Alread have an Account?</h1>
                         <p>Please use your account to Sign in</p>
-                        <button className="ghost" id="signIn" onClick={changePanel} >Sign in</button>
+                        <button className={styles.ghost} id="signIn" onClick={changePanel} >Sign in</button>
                     </div>
-                    <div className="overlay-panel overlay-right">
+                    <div className={[styles.overlayPanel, styles.overlayRight].join(' ')}>
                         <h1>No Account?</h1>
                         <p>Sign up to join BigBrain now and start the journey with us</p>
-                        <button className="ghost" id="signUp" onClick={changePanel}>Register</button>
+                        <button className={styles.ghost} id="signUp" onClick={changePanel}>Register</button>
                     </div>
                 </div>
         </div>
