@@ -42,11 +42,21 @@ export default function Dashboard () {
       fetchRequest('quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
         console.log(quizzes)
-        Notification();
+        Notification({ message: 'Create game successfully!' });
       });
     });
   }
-
+  // delete a game
+  function handleDeleteGame (id) {
+    fetchRequest(`quiz/${id}`, 'DELETE', null).then(() => {
+      // refresh the game list
+      fetchRequest('quiz', 'GET', null).then((data) => {
+        setQuizzes(data.quizzes);
+        console.log(quizzes)
+        Notification({ message: 'Delete game successfully!' });
+      });
+    });
+  }
   // ============================================Page Element============================================
   return (
   <>
@@ -72,9 +82,9 @@ export default function Dashboard () {
       <div>
       </div>
     }
-    renderItem={(item) => (
+    renderItem={(quizzes) => (
       <List.Item
-        key={item.title}
+        key={quizzes.title}
         extra={
           <img
             width={272}
@@ -84,10 +94,14 @@ export default function Dashboard () {
         }
       >
         <List.Item.Meta
-          title={<a onClick={() => navigate('/main/about')}>{item.name}</a>}
-          description={item.description}
+          title={<a onClick={() => navigate('/main/about')}>{quizzes.name}</a>}
         />
-        {item.content}
+        <>0 Question</><br></br>
+        <>Time to complete quiz: 10mins</>
+        <div style={{ marginTop: '20px', position: 'relative', }}>
+          <Button onClick={ () => handleDeleteGame(quizzes.id) } danger style={{ position: 'absolute', right: '100px', height: '32px', textTransform: 'capitalize' }}>Delete Quiz</Button>
+          <Button value="default" style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}>Edit Quiz</Button>
+        </div>
       </List.Item>
     )}
   />
