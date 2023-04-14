@@ -3,6 +3,7 @@ import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
+import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
 // const listData = Array.from({
 //   length: 5,
 // }).map((_, i) => ({
@@ -99,8 +100,8 @@ export default function Dashboard () {
         <>0 Question</><br></br>
         <>Time to complete quiz: 10mins</>
         <div style={{ marginTop: '20px', position: 'relative', }}>
-          <Button onClick={ () => handleDeleteGame(quizzes.id) } danger style={{ position: 'absolute', right: '100px', height: '32px', textTransform: 'capitalize' }}>Delete Quiz</Button>
-          <Button value="default" style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}>Edit Quiz</Button>
+          <Button onClick={ () => handleDeleteGame(quizzes.id) } type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+          <Button style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
         </div>
       </List.Item>
     )}
