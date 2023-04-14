@@ -22,7 +22,7 @@ export default [
         element: <Dashboard />
       },
       {
-        path: 'About',
+        path: 'About/:id',
         element: <About/>
       },
     ]
