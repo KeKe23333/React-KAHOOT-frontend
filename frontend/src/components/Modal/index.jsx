@@ -18,7 +18,7 @@ export default function ModalWithForm (props) {
   const [answerB, setAnswerB] = useState('');
   const [answerC, setAnswerC] = useState('');
   const [answerD, setAnswerD] = useState('');
-  //   const [correctAnswer, setCorrectAnswer] = useState([0, 0, 0, 0]);
+  const [correctAnswer, setCorrectAnswer] = useState([0, 0, 0, 0]);
   return (
         <>
             <div style={{ textAlign: 'left', }}>
@@ -30,7 +30,7 @@ export default function ModalWithForm (props) {
                 centered
                 open={open}
                 onOk={() => {
-                  console.log('I click OK', props.testvalue, questionDescription, questionTileAllowed, questionPoints, answerA, answerB, answerC, answerD)
+                  console.log('I click OK', props.testvalue, questionDescription, questionTileAllowed, questionPoints, answerA, answerB, answerC, answerD, correctAnswer)
                   setOpen(false)
                 }}
                 onCancel={() => setOpen(false)}
@@ -112,8 +112,7 @@ export default function ModalWithForm (props) {
                     </Form.Item>
                     <Form.Item name="Select coreect answer" label="Select coreect answer">
                         <Checkbox.Group
-                            
-                        >
+                            onChange={(e) => { setCorrectAnswer(e) }}>
                                 <Col span={8}>
                                     <Checkbox value='A' style={{ lineHeight: '32px' }} >
                                         A
