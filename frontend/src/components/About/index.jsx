@@ -23,13 +23,29 @@ export default function About () {
   const onFinishFailed = (errorInfo) => {
     console.log('Failed:', errorInfo);
   };
-
+  // init Questions we have
   useEffect(() => {
     fetchRequest(`quiz/${id}`, 'GET', null).then((data) => {
       console.log('quiz back is', data);
       setQuestions(data.questions)
     })
   }, [])
+  // to post a requet to uplad a question.
+  // function postQuestion () {
+  //   console.log('I click OK', questionDescription, questionTileAllowed, questionPoints, answerA, answerB, answerC, answerD)
+  //   fetchRequest(`quiz/${id}/question`, 'POST', {
+  //     description: questionDescription,
+  //     tileAllowed: questionTileAllowed,
+  //     points: questionPoints,
+  //     answerA: answerA,
+  //     answerB: answerB,
+  //     answerC: answerC,
+  //     answerD: answerD
+  //   }).then((data) => {
+  //     console.log('quiz back is', data);
+  //     setQuestions(data.questions)
+  //   })
+  // }
   return (
     <>
       <div>
@@ -67,7 +83,7 @@ export default function About () {
             </Form.Item>
           </Form.Item>
           <h2 style={{ marginBottom: '20px', textAlign: 'left' }}>Questions:</h2>
-          <ModalWithForm style={{ marginBottom: '50px' }} />
+          <ModalWithForm style={{ marginBottom: '50px' }} testvalue = 'this is a props 传递'/>
           {/* List here */}
           <List
             itemLayout="vertical"
