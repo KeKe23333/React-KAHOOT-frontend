@@ -1,14 +1,25 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Button, Form, Input, Checkbox, Col } from 'antd';
+import { useNavigate, useParams } from 'react-router-dom'
+import fetchRequest from '../../utlis'
+import Notification from '../Notification';
 
 export default function Question () {
-  // const { postQuestion } = props
-  const onFinish = (values) => {
-    console.log('Success:', values);
-  };
-  const onFinishFailed = (errorInfo) => {
-    console.log('Failed:', errorInfo);
-  };
+  const navigate = useNavigate()
+  const { quizId, questionId } = useParams()
+  const [quizName, setQuizName] = useState('');
+  const [quizThumbnail, setQuizThumbnail] = useState('');
+  const [oldQuestions, setOldQuestions] = useState([]);
+  const [newQuiz, setNewQuiz] = useState([]);
+  // get the quiz info
+  useEffect(() => {
+    fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
+      console.log('fetch back is ', data)
+      setOldQuestions(data.questions)
+      setQuizName(data.name)
+      setQuizThumbnail(data.thumbnail)
+    })
+  }, [])
 
   // modal info here
   const [questionDescription, setQuestionDescription] = useState('');
@@ -22,8 +33,7 @@ export default function Question () {
   const [answer6, asetAnswer6] = useState(false);
   const [correctAnswers, setCorrectAnswers] = useState('');
 
-  function handleSubmitQuestion (event) {
-    event.preventDefault()
+  function handleSubmitQuestion () {
     const modalInfo = {
       questionDescription,
       questionTimeAllowed,
@@ -37,21 +47,36 @@ export default function Question () {
         answer6,
       ],
       correctAnswers,
+      questionId,
     }
-    // postQuestion(modalInfo)
-    console.log('i wanna submit this question', modalInfo)
+    setNewQuiz([...oldQuestions, modalInfo])
+    // fetchRequest(`quiz/${quizId}`, 'POST', modalInfo).then((data) => {
+    //   console.log('fetch back is ', data)
+    // })
   }
+
+  useEffect(() => {
+    if (newQuiz.length === oldQuestions.length + 1) {
+      const payload = {
+        questions: newQuiz,
+        name: quizName,
+        thumbnail: quizThumbnail,
+      }
+      fetchRequest(`quiz/${quizId}`, 'PUT', payload).then((data) => {
+        navigate(`/main/quiz/${quizId}/${quizName}`)
+        Notification({ message: 'Create Question successfully!' });
+      })
+    }
+  }, [newQuiz])
   return (
     <>
       <div style={{ textAlign: 'left', }}>
-      <h1>Add a  new Question</h1>
+      <div style={{ display: 'flex' }} ><h2 style={{ marginBottom: '20px', marginRight: '10px' }}>Add a new question id {quizId} </h2> </div>
       <Form
         name="basic"
         style={{
           marginTop: '20px',
         }}
-        onFinish={onFinish}
-        onFinishFailed={onFinishFailed}
         autoComplete="off"
       >
         <Form.Item

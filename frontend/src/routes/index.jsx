@@ -23,11 +23,11 @@ export default [
         element: <Dashboard />
       },
       {
-        path: 'quiz/:id/:quizName',
+        path: 'quiz/:quizId/:quizName',
         element: <Quiz/>,
       },
       {
-        path: 'question/:id',
+        path: 'question/:quizId/:questionId',
         element: <Question/>,
       },
     ]

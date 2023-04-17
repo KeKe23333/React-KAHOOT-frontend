@@ -3,12 +3,12 @@ import { useParams, useNavigate } from 'react-router-dom'
 import fetchRequest from '../../utlis'
 import { Button, Form, Input, Upload, List } from 'antd';
 import { InboxOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons'
-import ModalWithForm from '../Modal';
+import { nanoid } from 'nanoid'; // https://www.npmjs.com/package/nanoid
 
 export default function Quiz () {
   const navigate = useNavigate();
-  // get the id and quizeName from the url
-  const { id, quizName } = useParams()
+  // get the quizId and quizeName from the url
+  const { quizId, quizName } = useParams()
   const [questions, setQuestions] = React.useState([]);
   const [newQuizName, setNewQuizName] = React.useState(quizName);
   const normFile = (e) => {
@@ -27,24 +27,11 @@ export default function Quiz () {
   };
   // init Questions we have
   useEffect(() => {
-    fetchRequest(`quiz/${id}`, 'GET', null).then((data) => {
-      console.log('quiz back is', data);
+    fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
+      console.log('fetch back is ', data)
       setQuestions(data.questions)
     })
   }, [])
-  // to post a requet to uplad a question.
-  function postQuestion (modalInfo) {
-    const payload = {
-      question: modalInfo,
-      name: quizName,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
-    }
-    console.log('I click OK', payload)
-    fetchRequest(`quiz/${id}`, 'PUT', payload).then((data) => {
-      console.log(' success !!! quiz back is', data);
-    })
-    setQuestions([...questions, modalInfo])
-  }
   // handle edit the whole quiz
   function handleEditQuiz (event) {
     event.preventDefault();
@@ -55,6 +42,12 @@ export default function Quiz () {
     }
     console.log('I click submit quiz', payload)
   }
+  // handle delete a question
+  function handleDeleteQuestion (questionId) {
+    const newQuestions = questions.filter((question) => question.questionId !== questionId)
+    setQuestions(newQuestions)
+  }
+  //  ================================ render ================================
   return (
     <>
       <div>
@@ -92,8 +85,7 @@ export default function Quiz () {
             </Form.Item>
           </Form.Item>
           <h2 style={{ marginBottom: '20px', textAlign: 'left' }}>Questions:</h2>
-          <Button onClick={() => navigate(`/main/question/${id}`) }>Add Question</Button>
-          <ModalWithForm style={{ marginBottom: '50px' }} postQuestion ={postQuestion} quizName = {quizName} />
+          <Button onClick={() => navigate(`/main/question/${quizId}/${nanoid()}`) }>Add Question</Button>
           {/* List here */}
           <List
             itemLayout="vertical"
@@ -105,10 +97,6 @@ export default function Quiz () {
               pageSize: 4,
             }}
             dataSource={questions}
-            footer={
-              <div>
-              </div>
-            }
             renderItem={(questions) => (
               <List.Item
                 key={questions.title}
@@ -117,15 +105,15 @@ export default function Quiz () {
                   title={<a>{questions.name}</a>}
                 />
                 <>Question: {questions.questionDescription} </><br></br>
-                <>Time to complete : {questions.questionTileAllowed}s</>
-                <Button onClick={() => console.log(`I wanna delete ${questions.id}`)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+                <>Time to complete : {questions.questionTimeAllowed}s</>
+                <Button onClick={() => handleDeleteQuestion(questions.questionId)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
                   <Button style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
               </List.Item>
             )}
           />
           <Form.Item>
             <Button type="primary" htmlType="submit" style={{ width: '100%', marginTop: '30px' }} onClick={handleEditQuiz} >
-              Submit
+              Submit Change
             </Button>
           </Form.Item>
         </Form>
