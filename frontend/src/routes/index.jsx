@@ -3,7 +3,8 @@ import Dashboard from '../components/Dashboard'
 import { Navigate } from 'react-router-dom'
 import React from 'react'
 import Main from '../pages/main'
-import About from '../components/About'
+import Quiz from '../components/Quiz'
+import Question from '../components/Question'
 export default [
   {
     path: '/login',
@@ -22,8 +23,12 @@ export default [
         element: <Dashboard />
       },
       {
-        path: 'About/:id',
-        element: <About/>
+        path: 'quiz/:id/:quizName',
+        element: <Quiz/>,
+      },
+      {
+        path: 'question/:id',
+        element: <Question/>,
       },
     ]
   },

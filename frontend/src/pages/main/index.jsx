@@ -1,4 +1,4 @@
-import { TeamOutlined, UserOutlined, FileOutlined, PieChartOutlined, DesktopOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
+import { TeamOutlined, UserOutlined, FileOutlined, PieChartOutlined, DesktopOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
 import React, { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';

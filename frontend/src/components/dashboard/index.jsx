@@ -95,7 +95,7 @@ export default function Dashboard () {
         }
       >
         <List.Item.Meta
-          title={<a onClick={() => navigate(`/main/about/${quizzes.id}`)}>{quizzes.name}</a>}
+          title={<a onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)}>{quizzes.name}</a>}
         />
         <>0 Question</><br></br>
         <>Time to complete quiz: 10mins</>

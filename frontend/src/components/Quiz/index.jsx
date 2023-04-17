@@ -1,14 +1,16 @@
 import React, { useEffect } from 'react'
-import { useParams } from 'react-router-dom'
+import { useParams, useNavigate } from 'react-router-dom'
 import fetchRequest from '../../utlis'
 import { Button, Form, Input, Upload, List } from 'antd';
 import { InboxOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import ModalWithForm from '../Modal';
 
-export default function About () {
-  // get the id from the url
-  const { id } = useParams()
+export default function Quiz () {
+  const navigate = useNavigate();
+  // get the id and quizeName from the url
+  const { id, quizName } = useParams()
   const [questions, setQuestions] = React.useState([]);
+  const [newQuizName, setNewQuizName] = React.useState(quizName);
   const normFile = (e) => {
     console.log('Upload event:', e);
     if (Array.isArray(e)) {
@@ -31,25 +33,32 @@ export default function About () {
     })
   }, [])
   // to post a requet to uplad a question.
-  // function postQuestion () {
-  //   console.log('I click OK', questionDescription, questionTileAllowed, questionPoints, answerA, answerB, answerC, answerD)
-  //   fetchRequest(`quiz/${id}/question`, 'POST', {
-  //     description: questionDescription,
-  //     tileAllowed: questionTileAllowed,
-  //     points: questionPoints,
-  //     answerA: answerA,
-  //     answerB: answerB,
-  //     answerC: answerC,
-  //     answerD: answerD
-  //   }).then((data) => {
-  //     console.log('quiz back is', data);
-  //     setQuestions(data.questions)
-  //   })
-  // }
+  function postQuestion (modalInfo) {
+    const payload = {
+      question: modalInfo,
+      name: quizName,
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
+    }
+    console.log('I click OK', payload)
+    fetchRequest(`quiz/${id}`, 'PUT', payload).then((data) => {
+      console.log(' success !!! quiz back is', data);
+    })
+    setQuestions([...questions, modalInfo])
+  }
+  // handle edit the whole quiz
+  function handleEditQuiz (event) {
+    event.preventDefault();
+    const payload = {
+      questions,
+      name: quizName,
+      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
+    }
+    console.log('I click submit quiz', payload)
+  }
   return (
     <>
       <div>
-        <h1 style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'left' }}>Quize name: {id}</h1>
+        <h1 style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'left' }}>Quize name: {quizName}</h1>
         <Form
           name="basic"
           style={{
@@ -61,7 +70,7 @@ export default function About () {
           <Form.Item
             label="Quize name"
             name="Quize name"
-            initialValue={id}
+            initialValue={quizName}
             rules={[
               {
                 required: true,
@@ -69,11 +78,11 @@ export default function About () {
               },
             ]}
           >
-            <Input />
+            <Input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)} />
           </Form.Item>
           <Form.Item label="Quize thumbnail">
             <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <Upload.Dragger name="files" action="/upload.do">
+              <Upload.Dragger name="files" action="" customRequest={(e) => console.log('xxxxxxxx', e)}>
                 <p className="ant-upload-drag-icon">
                   <InboxOutlined />
                 </p>
@@ -83,7 +92,8 @@ export default function About () {
             </Form.Item>
           </Form.Item>
           <h2 style={{ marginBottom: '20px', textAlign: 'left' }}>Questions:</h2>
-          <ModalWithForm style={{ marginBottom: '50px' }} testvalue = 'this is a props 传递'/>
+          <Button onClick={() => navigate(`/main/question/${id}`) }>Add Question</Button>
+          <ModalWithForm style={{ marginBottom: '50px' }} postQuestion ={postQuestion} quizName = {quizName} />
           {/* List here */}
           <List
             itemLayout="vertical"
@@ -102,28 +112,19 @@ export default function About () {
             renderItem={(questions) => (
               <List.Item
                 key={questions.title}
-                extra={
-                  <img
-                    width={272}
-                    alt="logo"
-                    src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
-                  />
-                }
               >
                 <List.Item.Meta
                   title={<a>{questions.name}</a>}
                 />
-                <>0 Question</><br></br>
-                <>Time to complete quiz: 10mins</>
-                <div style={{ marginTop: '20px', position: 'relative', }}>
-                  <Button onClick={() => console.log(`I wanna delete ${questions.id}`)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+                <>Question: {questions.questionDescription} </><br></br>
+                <>Time to complete : {questions.questionTileAllowed}s</>
+                <Button onClick={() => console.log(`I wanna delete ${questions.id}`)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
                   <Button style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
-                </div>
               </List.Item>
             )}
           />
           <Form.Item>
-            <Button type="primary" htmlType="submit" style={{ width: '100%', marginTop: '30px' }}>
+            <Button type="primary" htmlType="submit" style={{ width: '100%', marginTop: '30px' }} onClick={handleEditQuiz} >
               Submit
             </Button>
           </Form.Item>
