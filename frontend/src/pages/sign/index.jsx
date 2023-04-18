@@ -31,7 +31,7 @@ export default function Login () {
         email: signInEmail,
         password: signInPassword,
       }
-      fetchRequest('auth/login', 'POST', payload).then((data) => {
+      fetchRequest('admin/auth/login', 'POST', payload).then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token)
           navigate('/main')
@@ -49,7 +49,7 @@ export default function Login () {
         password: signUpPassword,
         name: signUpUsername,
       }
-      fetchRequest('auth/register', 'POST', payload).then((data) => {
+      fetchRequest('admin/auth/register', 'POST', payload).then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token)
           navigate('/main')

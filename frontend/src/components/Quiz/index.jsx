@@ -21,7 +21,7 @@ export default function Quiz () {
   };
   // init Questions we have
   useEffect(() => {
-    fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
+    fetchRequest(`admin/quiz/${quizId}`, 'GET', null).then((data) => {
       console.log('fetch back is ', data)
       setQuestions(data.questions)
       setQuizThumbnail(data.thumbnail)
@@ -35,7 +35,7 @@ export default function Quiz () {
       name: quizName,
       thumbnail: quizThumbnail,
     }
-    fetchRequest(`quiz/${quizId}`, 'PUT', payload).then((data) => {
+    fetchRequest(`admin/quiz/${quizId}`, 'PUT', payload).then((data) => {
       Notification({ message: 'Quiz Change successful!' });
     })
   }
@@ -98,7 +98,7 @@ export default function Quiz () {
                 <>Question: {questions.questionDescription} </><br></br>
                 <>Time to complete : {questions.questionTimeAllowed}s</>
                 <Button onClick={() => handleDeleteQuestion(questions.questionId)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
-                  <Button onClick={() => navigate(`/main/question/${quizId}/${questions.questionId}`) } style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
+                <Button onClick={() => navigate(`/main/question/${quizId}/${questions.questionId}`) } style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
               </List.Item>
             )}
           />

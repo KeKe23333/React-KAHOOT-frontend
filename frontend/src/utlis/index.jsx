@@ -14,7 +14,7 @@ export default async function fetchRequest (path, methods, payload) {
     if (payload === null) {
       delete fetchBody.body
     }
-    const response = await fetch(`http://localhost:5005/admin/${path}`, fetchBody)
+    const response = await fetch(`http://localhost:5005/${path}`, fetchBody)
     const data = await response.json();
     return data;
   } catch (err) {

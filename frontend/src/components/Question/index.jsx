@@ -26,7 +26,7 @@ export default function Question () {
 
   // get the quiz info and check if it is a edit or create
   useEffect(() => {
-    fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
+    fetchRequest(`admin/quiz/${quizId}`, 'GET', null).then((data) => {
       console.log('fetch back is ', data)
       const removeSameId = data.questions.filter(question => question.questionId !== questionId)
       console.log('myquestion is ', removeSameId)
@@ -53,7 +53,7 @@ export default function Question () {
       questionId,
     }
     setNewQuiz([...oldQuestions, modalInfo])
-    // fetchRequest(`quiz/${quizId}`, 'POST', modalInfo).then((data) => {
+    // fetchRequest(`admin/quiz/${quizId}`, 'POST', modalInfo).then((data) => {
     //   console.log('fetch back is ', data)
     // })
   }
@@ -74,7 +74,7 @@ export default function Question () {
           name: quizName,
           thumbnail: quizThumbnail,
         }
-        fetchRequest(`quiz/${quizId}`, 'PUT', payload).then((data) => {
+        fetchRequest(`admin/quiz/${quizId}`, 'PUT', payload).then((data) => {
           navigate(`/main/quiz/${quizId}/${quizName}`)
           Notification({ message: 'Create Questionc successfully!' });
         })
