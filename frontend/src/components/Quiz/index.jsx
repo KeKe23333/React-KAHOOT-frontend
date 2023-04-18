@@ -4,6 +4,7 @@ import fetchRequest from '../../utlis'
 import { Button, Form, Input, Upload, List } from 'antd';
 import { InboxOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { nanoid } from 'nanoid'; // https://www.npmjs.com/package/nanoid
+import Notification from '../Notification';
 
 export default function Quiz () {
   const navigate = useNavigate();
@@ -40,7 +41,9 @@ export default function Quiz () {
       name: quizName,
       thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
     }
-    console.log('I click submit quiz', payload)
+    fetchRequest(`quiz/${quizId}`, 'PUT', payload).then((data) => {
+      Notification({ message: 'Quiz Change successful!' });
+    })
   }
   // handle delete a question
   function handleDeleteQuestion (questionId) {
@@ -107,7 +110,7 @@ export default function Quiz () {
                 <>Question: {questions.questionDescription} </><br></br>
                 <>Time to complete : {questions.questionTimeAllowed}s</>
                 <Button onClick={() => handleDeleteQuestion(questions.questionId)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
-                  <Button style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
+                  <Button onClick={() => navigate(`/main/question/${quizId}/${questions.questionId}`) } style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
               </List.Item>
             )}
           />

@@ -4,27 +4,32 @@ import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
 import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
-// const listData = Array.from({
-//   length: 5,
-// }).map((_, i) => ({
-//   href: 'https://ant.design',
-//   title: `ant design part ${i}`,
-//   avatar: `https://joesch.moe/api/v1/random?key=${i}`,
-//   description:
-//     'Ant Design, a design language for background applications, is refined by Ant UED Team.',
-//   content:
-//     'We supply a series of design principles, practical patterns and high quality design resources (Sketch and Axure), to help people create their product prototypes beautifully and efficiently.',
-// }));
+
 export default function Dashboard () {
   const [quizzes, setQuizzes] = React.useState([]);
   const [showCreateGame, setShowCreateGame] = React.useState(false);
   const [newGameName, setNewGameName] = React.useState('');
   const navigate = useNavigate();
   // init page
+  /* Also fetch each quiz id to get the length of the question */
+  function caculateTimeAllocated (questions) {
+    let timeAllocated = 0;
+    questions.forEach((question) => {
+      timeAllocated += Number(question.questionTimeAllowed);
+    })
+    return timeAllocated;
+  }
   useEffect(() => {
     fetchRequest('quiz', 'GET', null).then((data) => {
-      console.log('data is', data);
-      setQuizzes(data.quizzes);
+      console.log('quiz list is ', data);
+      data.quizzes.forEach((quiz) => {
+        fetchRequest(`quiz/${quiz.id}`, 'GET', null).then((quizData) => {
+          console.log('quize detial', quizData);
+          // get the length of the question and caculate the total time allocated
+          const quizWithQuestionLength = { ...quiz, questionLength: quizData.questions.length, quizTimeAllocated: caculateTimeAllocated(quizData.questions) };
+          setQuizzes((prev) => [...prev, quizWithQuestionLength]);
+        })
+      })
     });
   }, [])
   // Handle a new game creation
@@ -88,20 +93,22 @@ export default function Dashboard () {
         key={quizzes.title}
         extra={
           <img
+            onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)}
             width={272}
             alt="logo"
             src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            style={{ cursor: 'pointer', }}
           />
         }
       >
         <List.Item.Meta
           title={<a onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)}>{quizzes.name}</a>}
         />
-        <>0 Question</><br></br>
-        <>Time to complete quiz: 10mins</>
+        <>{quizzes.questionLength} Question</><br></br>
+        <>Time to complete quiz: {quizzes.quizTimeAllocated} seconds  </>
         <div style={{ marginTop: '20px', position: 'relative', }}>
           <Button onClick={ () => handleDeleteGame(quizzes.id) } type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
-          <Button style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
+          <Button onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)} style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
         </div>
       </List.Item>
     )}
