@@ -3,8 +3,7 @@ import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons';
-
+import { FormOutlined, DeleteOutlined, StopOutlined, CaretRightOutlined, CopyOutlined } from '@ant-design/icons';
 export default function Dashboard () {
   const [quizzes, setQuizzes] = React.useState([]);
   const [showCreateGame, setShowCreateGame] = React.useState(false);
@@ -48,7 +47,7 @@ export default function Dashboard () {
       fetchRequest('quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
         console.log(quizzes)
-        Notification({ message: 'Create game successfully!' });
+        Notification({ message: 'Create game successful!' });
       });
     });
   }
@@ -59,9 +58,33 @@ export default function Dashboard () {
       fetchRequest('quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
         console.log(quizzes)
-        Notification({ message: 'Delete game successfully!' });
+        Notification({ message: 'Delete game successful!' });
       });
     });
+  }
+
+  // ============================================Play A Game============================================
+  // start a game
+  function handleStartGame (quizId) {
+    fetchRequest(`quiz/${quizId}/start`, 'POST', null).then(() => {
+      console.log('start game');
+      // to featch the quiz detail to get the sessions id.
+      fetchRequest(`quiz/${quizId}`, 'GET', null).then((quizDetail) => {
+        if (quizDetail.oldSessions === null) {
+          Notification({ message: 'Start game failed!', type: 'error' });
+          return;
+        }
+        Notification({ message: 'Start game successful!' });
+        navigate('/main')
+      })
+    })
+  }
+  // end a game
+  function handleEndGame (quizId) {
+    fetchRequest(`quiz/${quizId}/end`, 'POST', null).then(() => {
+      Notification({ message: 'End game successful!' });
+      navigate('/main')
+    })
   }
   // ============================================Page Element============================================
   return (
@@ -95,12 +118,23 @@ export default function Dashboard () {
           <img
             onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)}
             width={272}
+            height={180}
             alt="logo"
-            src="https://gw.alipayobjects.com/zos/rmsportal/mqaQswcyDLcXyDKnZfES.png"
+            src={quizzes.thumbnail ? quizzes.thumbnail : 'https://img2.baidu.com/it/u=3286035947,2832928126&fm=253&fmt=auto&app=138&f=JPEG?w=500&h=501'}
             style={{ cursor: 'pointer', }}
           />
         }
       >
+
+        <div style={{ marginTop: '20px', position: 'relative', }}>
+          {!quizzes.active
+            ? <Button onClick={() => handleStartGame(quizzes.id) } style={{ backgroundColor: '#009900', position: 'absolute', left: '10px', top: '20px', textTransform: 'capitalize' }} type="primary" ><CaretRightOutlined />Start The Game</Button>
+            : <div>
+              <p style={{ position: 'absolute', left: '13px', textTransform: 'capitalize' }} > Game ID {quizzes.active} started</p>
+              <Button style={{ position: 'absolute', left: '13px', top: '60px', textTransform: 'capitalize' }}><CopyOutlined />Copy Game Link</Button>
+              <Button onClick={() => handleEndGame(quizzes.id) } style={{ position: 'absolute', left: '10px', top: '100px', textTransform: 'capitalize' }} danger type="primary"><StopOutlined />End The Game with</Button>
+              </div> }
+        </div>
         <List.Item.Meta
           title={<a onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)}>{quizzes.name}</a>}
         />

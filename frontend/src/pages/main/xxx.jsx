@@ -1,9 +1,8 @@
-import React, { useEffect } from 'react';
+import { TeamOutlined, UserOutlined, FileOutlined, PieChartOutlined, DesktopOutlined } from '@ant-design/icons';
 import { Layout, Menu, theme } from 'antd';
-import { PieChartOutlined, } from '@ant-design/icons';
+import React, { useEffect } from 'react';
 import { useNavigate, Outlet } from 'react-router-dom';
 
-const { Header } = Layout;
 export default function Main () {
   const { token: { colorBgContainer }, } = theme.useToken();
   const [token, setToken] = React.useState(localStorage.getItem('token'));
@@ -24,9 +23,17 @@ export default function Main () {
       label,
     };
   }
-  const { Content, Footer } = Layout;
+  const { Content, Footer, Sider } = Layout;
   const items = [
     getItem('Dashboard', 'dashboard', <PieChartOutlined />),
+    getItem('About', 'about', <DesktopOutlined />),
+    getItem('User', 'user', <UserOutlined />, [
+      getItem('Tom', '3'),
+      getItem('Bill', '4'),
+      getItem('Alex', '5'),
+    ]),
+    getItem('Team', 'sub2', <TeamOutlined />, [getItem('Team 1', '6'), getItem('Team 2', '8')]),
+    getItem('Files', '9', <FileOutlined />),
   ];
   function manuChange (item) {
     console.log('item is ', item);
@@ -37,39 +44,42 @@ export default function Main () {
     setToken(null);// junmp to login page
     location.pathname = '/login';
   }
+
   return (
-    <Layout>
-      <Header
+    <Layout hasSider>
+      <Sider
         style={{
-          position: 'sticky',
+          overflow: 'auto',
+          height: '100vh',
+          position: 'fixed',
+          left: 0,
           top: 0,
-          zIndex: 1,
-          width: '100%',
-          display: 'flex',
+          bottom: 0,
         }}
       >
         <div
           style={{
-            float: 'left',
-            width: 120,
-            height: 31,
-            margin: '16px 24px 16px 0',
+            height: 32,
+            margin: 16,
             background: 'rgba(255, 255, 255, 0.2)',
-            alignItems: 'center',
           }}
         />
-        <Menu
-          theme="dark"
-          mode="horizontal"
-          defaultSelectedKeys={['2']}
-          items={items}
-          onClick={manuChange}
-        />
-        <div style={{ marginLeft: '70%' }}>
-        <button style={{ height: '40px', width: '140px', alignContent: 'center', }} onClick={logout}>Logout</button>
-        </div>
-      </Header>
-      <Content
+        <Menu theme="dark" mode="inline" defaultSelectedKeys={['4']} items={items} onClick={manuChange} />
+        <button style={{ marginLeft: 15, marginTop: 40 }} onClick={logout}>Logout</button>
+      </Sider>
+      <Layout
+        className="site-layout"
+        style={{
+          marginLeft: 200,
+        }}
+      >
+        {/* <Header
+          style={{
+            padding: 0,
+            background: colorBgContainer,
+          }}
+        /> */}
+        <Content
           style={{
             margin: '24px 16px 0',
             overflow: 'initial',
@@ -87,13 +97,14 @@ export default function Main () {
             <Outlet />
           </div>
         </Content>
-      <Footer
-        style={{
-          textAlign: 'center',
-        }}
-      >
-        Ant Design ©2023 Created by Ant UED
-      </Footer>
+        <Footer
+          style={{
+            textAlign: 'center',
+          }}
+        >
+          Ant Design ©2023 Created by Ant UED
+        </Footer>
+      </Layout>
     </Layout>
   );
 }

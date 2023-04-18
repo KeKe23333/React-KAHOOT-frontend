@@ -3,6 +3,7 @@ import Input from '../../components/Input'
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 import styles from './index.module.css'
+import Notification from '../../components/Notification';
 
 export default function Login () {
   const [showSignUpPanel, setShowSignUpPanel] = React.useState(false);
@@ -40,7 +41,9 @@ export default function Login () {
   }
   const handleRegister = (event) => {
     event.preventDefault();
-    if (signUpPassword === signUpConfirmPassword && signUpEmail && signUpPassword && signUpUsername) {
+    if (signUpPassword !== signUpConfirmPassword) {
+      Notification({ message: 'Two password not match!', type: 'error' })
+    } else if (signUpPassword === signUpConfirmPassword && signUpEmail && signUpPassword && signUpUsername) {
       const payload = {
         email: signUpEmail,
         password: signUpPassword,
@@ -51,7 +54,7 @@ export default function Login () {
           localStorage.setItem('token', data.token)
           navigate('/main')
         } else {
-          alert('Email address already registered')
+          alert('Oop! Email address already registered')
         }
       });
     }

@@ -28,21 +28,6 @@ export default function Question () {
   useEffect(() => {
     fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
       console.log('fetch back is ', data)
-      // check the questionId and remove same ID and initate the intial value
-
-      // const question = data.questions.filter(question => question.questionId === questionId)[0]
-      // setQuestionDescription(question.questionDescription)
-      // console.log('questionDescription is ', questionDescription)
-      // setquestionTimeAllowed(question.questionTimeAllowed)
-      // setQuestionPoints(question.questionPoints)
-      // setAnswer1(question.answers[0])
-      // setAnswer2(question.answers[1])
-      // setAnswer3(question.answers[2])
-      // setAnswer4(question.answers[3])
-      // setAnswer5(question.answers[4])
-      // setAnswer6(question.answers[5])
-      // setCorrectAnswers(question.correctAnswers)
-
       const removeSameId = data.questions.filter(question => question.questionId !== questionId)
       console.log('myquestion is ', removeSameId)
       setOldQuestions(removeSameId)

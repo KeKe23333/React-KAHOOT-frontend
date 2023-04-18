@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import fetchRequest from '../../utlis'
-import { Button, Form, Input, Upload, List } from 'antd';
-import { InboxOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons'
+import { Button, Form, Input, List } from 'antd';
+import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
 import { nanoid } from 'nanoid'; // https://www.npmjs.com/package/nanoid
 import Notification from '../Notification';
 
@@ -12,14 +12,7 @@ export default function Quiz () {
   const { quizId, quizName } = useParams()
   const [questions, setQuestions] = React.useState([]);
   const [newQuizName, setNewQuizName] = React.useState(quizName);
-  const normFile = (e) => {
-    console.log('Upload event:', e);
-    if (Array.isArray(e)) {
-      return e;
-    }
-    return e?.fileList;
-  };
-
+  const [quizThumbnail, setQuizThumbnail] = React.useState('');
   const onFinish = (values) => {
     console.log('Success:', values);
   };
@@ -31,6 +24,7 @@ export default function Quiz () {
     fetchRequest(`quiz/${quizId}`, 'GET', null).then((data) => {
       console.log('fetch back is ', data)
       setQuestions(data.questions)
+      setQuizThumbnail(data.thumbnail)
     })
   }, [])
   // handle edit the whole quiz
@@ -39,7 +33,7 @@ export default function Quiz () {
     const payload = {
       questions,
       name: quizName,
-      thumbnail: 'data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAUAAAAFCAYAAACNbyblAAAAHElEQVQI12P4//8/w38GIAXDIBKE0DHxgljNBAAO9TXL0Y4OHwAAAABJRU5ErkJggg==',
+      thumbnail: quizThumbnail,
     }
     fetchRequest(`quiz/${quizId}`, 'PUT', payload).then((data) => {
       Notification({ message: 'Quiz Change successful!' });
@@ -76,16 +70,10 @@ export default function Quiz () {
           >
             <Input value={newQuizName} onChange={(e) => setNewQuizName(e.target.value)} />
           </Form.Item>
-          <Form.Item label="Quize thumbnail">
-            <Form.Item name="dragger" valuePropName="fileList" getValueFromEvent={normFile} noStyle>
-              <Upload.Dragger name="files" action="" customRequest={(e) => console.log('xxxxxxxx', e)}>
-                <p className="ant-upload-drag-icon">
-                  <InboxOutlined />
-                </p>
-                <p className="ant-upload-text">Click or drag file to this area to upload</p>
-                <p className="ant-upload-hint">Support for a single or bulk upload.</p>
-              </Upload.Dragger>
-            </Form.Item>
+          <Form.Item
+          label="Quize thumbnail URL"
+          >
+            <Input value={quizThumbnail} onChange={(e) => setQuizThumbnail(e.target.value)} />
           </Form.Item>
           <h2 style={{ marginBottom: '20px', textAlign: 'left' }}>Questions:</h2>
           <Button onClick={() => navigate(`/main/question/${quizId}/${nanoid()}`) }>Add Question</Button>

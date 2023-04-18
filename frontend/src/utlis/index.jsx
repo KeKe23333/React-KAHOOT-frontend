@@ -11,7 +11,7 @@ export default async function fetchRequest (path, methods, payload) {
     if (path === 'auth/login' || path === 'auth/register') {
       delete fetchBody.headers.Authorization
     }
-    if (methods === 'GET' || methods === 'DELETE') {
+    if (payload === null) {
       delete fetchBody.body
     }
     const response = await fetch(`http://localhost:5005/admin/${path}`, fetchBody)
