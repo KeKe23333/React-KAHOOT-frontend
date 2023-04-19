@@ -52,6 +52,7 @@ export default function Login () {
       fetchRequest('admin/auth/register', 'POST', payload).then((data) => {
         if (data.token) {
           localStorage.setItem('token', data.token)
+          Notification({ message: 'Register success!', type: 'success' })
           navigate('/main')
         } else {
           alert('Oop! Email address already registered')
@@ -63,23 +64,23 @@ export default function Login () {
   <div className={styles.loginPage}>
   <div className={styles.loginBody}>
     <span className={styles.webLogo}>BigBrain Technology </span>
-    <div className={!showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id="login-box">
+    <div className={!showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id='login-box'>
         <div className={[styles.formContainer, styles.signUpContainer].join(' ')}>
             <form onSubmit={handleRegister}>
                 <h1>Register</h1>
-                <Input type="name" placeholder="Useranme" value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
-                <Input type="email" placeholder="Email" value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)} />
-                <Input type="password" placeholder="Password" value={signUpPassword} onChange={(e) => setSignUpPassword(e.target.value)} />
-                <Input type="password" placeholder="Confirm Password" value={signUpConfirmPassword} onChange={(e) => setSignUpConfirmPassword(e.target.value)} />
-                <button>REGISTER</button>
+                <Input id='signUpUsername' label='name' placeholder='Useranme' value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
+                <Input id='signUpEmail' label='email' placeholder='Email' value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)} />
+                <Input id='signUpPassword' label='password' placeholder='Password' value={signUpPassword} onChange={(e) => setSignUpPassword(e.target.value)} />
+                <Input id='signUpConfirmPassword' label='password' placeholder='Confirm Password' value={signUpConfirmPassword} onChange={(e) => setSignUpConfirmPassword(e.target.value)} />
+                <button >REGISTER</button>
             </form>
         </div>
 
         <div className={[styles.formContainer, styles.signInContainer].join(' ')}>
             <form onSubmit={handleSignIn}>
                 <h1>Sign In</h1>
-                <Input type="email" placeholder="Email" value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
-                <Input type="password" placeholder="Password" value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
+                <Input id='signInEmail' label='email' placeholder='Email' value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
+                <Input id='signInPassword' label='password' placeholder='Password' value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
                 <a className={styles.forgetPass} href=''>Forget password?</a>
                 <button>SIGN IN</button>
             </form>
@@ -90,12 +91,12 @@ export default function Login () {
                     <div className={[styles.overlayPanel, styles.overlayLeft].join(' ')}>
                         <h1>Alread have an Account?</h1>
                         <p>Please use your account to Sign in</p>
-                        <button className={styles.ghost} id="signIn" onClick={changePanel} >Sign in</button>
+                        <button className={styles.ghost} id='signIn' onClick={changePanel} >Sign in</button>
                     </div>
                     <div className={[styles.overlayPanel, styles.overlayRight].join(' ')}>
                         <h1>No Account?</h1>
                         <p>Sign up to join BigBrain now and start the journey with us</p>
-                        <button className={styles.ghost} id="signUp" onClick={changePanel}>Register</button>
+                        <button className={styles.ghost} id='signUp' onClick={changePanel}>Register</button>
                     </div>
                 </div>
         </div>

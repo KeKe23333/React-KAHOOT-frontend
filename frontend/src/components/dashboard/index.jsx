@@ -1,4 +1,4 @@
-import { List, Button, Input, Space } from 'antd';
+import { List, Button, Input, Space, Popconfirm } from 'antd';
 import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
@@ -171,7 +171,15 @@ export default function Dashboard () {
         <>{quizzes.questionLength} Question</><br></br>
         <>Time to complete quiz: {quizzes.quizTimeAllocated} seconds  </>
         <div style={{ marginTop: '20px', position: 'relative', }}>
-          <Button onClick={ () => handleDeleteGame(quizzes.id) } type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+          <Popconfirm
+            title="Delete the QUiz"
+            description="Are you sure to delete this Quiz?"
+            onConfirm={() => handleDeleteGame(quizzes.id)}
+            okText="Yes"
+            cancelText="No"
+          >
+            <Button type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+          </Popconfirm>
           <Button onClick={() => navigate(`/main/quiz/${quizzes.id}/${quizzes.name}`)} style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
         </div>
       </List.Item>

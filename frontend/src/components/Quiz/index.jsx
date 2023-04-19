@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import fetchRequest from '../../utlis'
-import { Button, Form, Input, List } from 'antd';
+import { Button, Form, Input, List, Popconfirm } from 'antd';
 import { FormOutlined, DeleteOutlined, RollbackOutlined } from '@ant-design/icons'
 import { nanoid } from 'nanoid'; // https://www.npmjs.com/package/nanoid
 import Notification from '../Notification';
@@ -100,7 +100,15 @@ export default function Quiz () {
                 />
                 <>Question: {questions.questionDescription} </><br></br>
                 <>Time to complete : {questions.questionTimeAllowed}s</>
-                <Button onClick={() => handleDeleteQuestion(questions.questionId)} type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+                <Popconfirm
+                  title="Delete the QUiz"
+                  description="Are you sure to delete this Quiz?"
+                  onConfirm={() => handleDeleteQuestion(questions.questionId)}
+                  okText="Yes"
+                  cancelText="No"
+                >
+                  <Button type="dashed" danger style={{ position: 'absolute', right: '120px', height: '32px', textTransform: 'capitalize' }}> <DeleteOutlined /> Delete Quiz</Button>
+                </Popconfirm>
                 <Button onClick={() => navigate(`/main/question/${quizId}/${questions.questionId}`) } style={{ position: 'absolute', right: '0px', textTransform: 'capitalize' }}><FormOutlined />Edit Quiz</Button>
               </List.Item>
             )}
