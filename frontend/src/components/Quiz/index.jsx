@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useParams, useNavigate } from 'react-router-dom'
 import fetchRequest from '../../utlis'
 import { Button, Form, Input, List } from 'antd';
-import { FormOutlined, DeleteOutlined } from '@ant-design/icons'
+import { FormOutlined, DeleteOutlined, RollbackOutlined } from '@ant-design/icons'
 import { nanoid } from 'nanoid'; // https://www.npmjs.com/package/nanoid
 import Notification from '../Notification';
 
@@ -47,6 +47,9 @@ export default function Quiz () {
   //  ================================ render ================================
   return (
     <>
+      <div style={{ display: 'block', position: 'relative', marginBottom: '50px' }} >
+      <Button style={{ position: 'absolute', left: '0px', minWidth: '100px' }} onClick={() => navigate(-1)}>Back <RollbackOutlined /> </Button>
+      </div>
       <div>
         <h1 style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'left' }}>Quize name: {quizName}</h1>
         <Form

@@ -51,6 +51,7 @@ export default function Main () {
       >
         <p
           style={{
+            theme: 'light',
             color: 'white',
             fontSize: '30px',
             width: 120,
@@ -68,6 +69,7 @@ export default function Main () {
           defaultSelectedKeys={['2']}
           items={items}
           onClick={manuChange}
+          selectable={false}
         />
         <div style={{ marginLeft: '70%' }}>
         <button style={{ height: '40px', width: '140px', alignContent: 'center', }} onClick={logout}>Logout</button>

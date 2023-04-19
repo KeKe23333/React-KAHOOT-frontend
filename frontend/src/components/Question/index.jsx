@@ -3,6 +3,7 @@ import { Button, Form, Input, Checkbox, Col } from 'antd';
 import { useNavigate, useParams } from 'react-router-dom'
 import fetchRequest from '../../utlis'
 import Notification from '../Notification';
+import { RollbackOutlined } from '@ant-design/icons'
 
 export default function Question () {
   const navigate = useNavigate()
@@ -83,6 +84,9 @@ export default function Question () {
   }, [newQuiz])
   return (
     <>
+      <div style={{ display: 'block', position: 'relative', marginBottom: '50px' }} >
+      <Button style={{ position: 'absolute', left: '0px', minWidth: '100px' }} onClick={() => navigate(-1)}>Back <RollbackOutlined /> </Button>
+      </div>
       <div style={{ textAlign: 'left', }}>
         <div style={{ display: 'flex' }} ><h2 style={{ marginBottom: '20px', marginRight: '10px' }}>Add a new question for Quiz: {quizName} </h2> </div>
         <Form
