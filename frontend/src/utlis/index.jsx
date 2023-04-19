@@ -8,11 +8,12 @@ export default async function fetchRequest (path, methods, payload) {
       },
       body: JSON.stringify(payload)
     }
-    if (path === 'auth/login' || path === 'auth/register') {
-      delete fetchBody.headers.Authorization
-    }
     if (payload === null) {
       delete fetchBody.body
+    }
+    // check if this request need a Authorization header
+    if (path.slice(0, 6) === 'player' || path === 'admin/auth/login' || path === 'admin/auth/register') {
+      delete fetchBody.headers.Authorization
     }
     const response = await fetch(`http://localhost:5005/${path}`, fetchBody)
     const data = await response.json();

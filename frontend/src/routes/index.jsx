@@ -5,7 +5,8 @@ import React from 'react'
 import Main from '../pages/main'
 import Quiz from '../components/Quiz'
 import Question from '../components/Question'
-import PlayerIn from '../pages/player'
+import PlayerIn from '../pages/playerin'
+import PlayerHome from '../pages/playerhome'
 export default [
   {
     path: '/login',
@@ -34,15 +35,19 @@ export default [
     ]
   },
   {
+    path: '/play/join/:sessionId',
+    element: <PlayerIn />
+  },
+  {
+    path: '/play/join/:sessionId/player/:playerId/name/:playerName',
+    element: <PlayerHome />
+  },
+  {
     path: '*',
     element: <h2>404 Page Not Found</h2>
   },
   {
     path: '/',
     element: <Navigate to='/login' />
-  },
-  {
-    path: '/play/join/:sessionId',
-    element: <PlayerIn />
   }
 ]

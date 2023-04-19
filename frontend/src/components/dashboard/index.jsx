@@ -3,13 +3,14 @@ import React, { useEffect } from 'react';
 import fetchRequest from '../../utlis';
 import { useNavigate } from 'react-router-dom';
 import Notification from '../../components/Notification';
-import { FormOutlined, DeleteOutlined, StopOutlined, CaretRightOutlined, CopyOutlined } from '@ant-design/icons';
+import { FormOutlined, DeleteOutlined, StopOutlined, CaretRightOutlined, CopyOutlined, ArrowRightOutlined } from '@ant-design/icons';
 import { CopyToClipboard } from 'react-copy-to-clipboard';
 export default function Dashboard () {
   const [quizzes, setQuizzes] = React.useState([]);
   const [showCreateGame, setShowCreateGame] = React.useState(false);
   const [newGameName, setNewGameName] = React.useState('');
   const [copied, setCopied] = React.useState(false);
+  const [stage, setStage] = React.useState('--');
   const navigate = useNavigate();
   // init page
   /* Also fetch each quiz id to get the length of the question */
@@ -25,7 +26,6 @@ export default function Dashboard () {
       console.log('quiz list is ', data);
       data.quizzes.forEach((quiz) => {
         fetchRequest(`admin/quiz/${quiz.id}`, 'GET', null).then((quizData) => {
-          console.log('quize detial', quizData);
           // get the length of the question and caculate the total time allocated
           const quizWithQuestionLength = { ...quiz, questionLength: quizData.questions.length, quizTimeAllocated: caculateTimeAllocated(quizData.questions) };
           setQuizzes((prev) => [...prev, quizWithQuestionLength]);
@@ -48,7 +48,6 @@ export default function Dashboard () {
       // refresh the game list
       fetchRequest('admin/quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
-        console.log(quizzes)
         Notification({ message: 'Create game successful!' });
       });
     });
@@ -59,7 +58,6 @@ export default function Dashboard () {
       // refresh the game list
       fetchRequest('admin/quiz', 'GET', null).then((data) => {
         setQuizzes(data.quizzes);
-        console.log(quizzes)
         Notification({ message: 'Delete game successful!' });
       });
     });
@@ -69,10 +67,10 @@ export default function Dashboard () {
   // start a game
   function handleStartGame (quizId) {
     fetchRequest(`admin/quiz/${quizId}/start`, 'POST', null).then(() => {
-      console.log('start game');
       // to featch the quiz detail to get the sessions id.
       fetchRequest(`admin/quiz/${quizId}`, 'GET', null).then((quizDetail) => {
-        if (quizDetail.oldSessions === null) {
+        console.log('After start a game , game detial is ', quizDetail);
+        if (quizDetail.active === null) {
           Notification({ message: 'Start game failed!', type: 'error' });
           return;
         }
@@ -88,12 +86,31 @@ export default function Dashboard () {
       navigate('/main')
     })
   }
-
+  // copy game link button function
   function handleCopyGameLink () {
     if (copied) {
       setCopied(true);
     }
     Notification({ message: 'Copy game link successful!' });
+  }
+  // Go to next question to a game session
+  function handleNextQuestion (quizId) {
+    fetchRequest(`admin/quiz/${quizId}/advance`, 'POST', null).then((data) => {
+      console.log('data is ', data);
+      if (data.stage === 0) {
+        setStage('Stand by')
+        return;
+      } else if (data.error) {
+        setStage('Game Ended')
+        return;
+      }
+      setStage(data.stage);
+      // if (data) {
+      //   Notification({ message: 'Next question success!' });
+      // } else {
+      //   Notification({ message: 'Next question failed!', type: 'error' });
+      // }
+    })
   }
   // ============================================Page Element============================================
   return (
@@ -111,7 +128,6 @@ export default function Dashboard () {
     size="large"
     pagination={{
       onChange: (page) => {
-        console.log(page);
       },
       pageSize: 4,
     }}
@@ -140,11 +156,13 @@ export default function Dashboard () {
             ? <Button onClick={() => handleStartGame(quizzes.id) } style={{ backgroundColor: '#009900', position: 'absolute', left: '10px', top: '20px', textTransform: 'capitalize' }} type="primary" ><CaretRightOutlined />Start The Game</Button>
             : <div>
               <p style={{ position: 'absolute', left: '13px', textTransform: 'capitalize' }} > Game ID {quizzes.active} started</p>
+              <p style={{ position: 'absolute', left: '13px', top: '18px', textTransform: 'capitalize' }} > question: {stage} </p>
               <CopyToClipboard text= {`http://localhost:3000/play/join/${quizzes.active}`}
                 onCopy={() => handleCopyGameLink()}>
                 <Button style={{ position: 'absolute', left: '13px', top: '60px', textTransform: 'capitalize' }}><CopyOutlined />Copy Game Link</Button>
               </CopyToClipboard>
-              <Button onClick={() => handleEndGame(quizzes.id) } style={{ position: 'absolute', left: '10px', top: '100px', textTransform: 'capitalize' }} danger type="primary"><StopOutlined />End The Game with</Button>
+              <Button onClick={() => handleNextQuestion(quizzes.id) } style={{ position: 'absolute', left: '10px', top: '100px', textTransform: 'capitalize' }} type="primary"><ArrowRightOutlined />Next Question</Button>
+              <Button onClick={() => handleEndGame(quizzes.id) } style={{ position: 'absolute', left: '10px', top: '140px', textTransform: 'capitalize' }} danger type="primary"><StopOutlined />End The Game</Button>
               </div> }
         </div>
         <List.Item.Meta
