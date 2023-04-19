@@ -48,7 +48,7 @@ export default function Quiz () {
   return (
     <>
       <div style={{ display: 'block', position: 'relative', marginBottom: '50px' }} >
-      <Button style={{ position: 'absolute', left: '0px', minWidth: '100px' }} onClick={() => navigate(-1)}>Back <RollbackOutlined /> </Button>
+      <Button style={{ position: 'absolute', left: '0px', minWidth: '100px' }} onClick={() => navigate('/main/dashboard')}>Back <RollbackOutlined /> </Button>
       </div>
       <div>
         <h1 style={{ fontSize: '30px', marginBottom: '30px', textAlign: 'left' }}>Quize name: {quizName}</h1>
