@@ -8,7 +8,6 @@ export default function Main () {
   const { token: { colorBgContainer }, } = theme.useToken();
   const [token, setToken] = React.useState(localStorage.getItem('token'));
   const navigate = useNavigate();
-  // 这里可能会内存泄漏
   useEffect(() => {
     if (!token) {
       navigate('/login')
@@ -46,20 +45,25 @@ export default function Main () {
           zIndex: 1,
           width: '100%',
           display: 'flex',
+          backgroundColor: '#3498db',
+          borderBottom: '1px solid #e8e8e8',
         }}
       >
-        <div
+        <p
           style={{
-            float: 'left',
+            color: 'white',
+            fontSize: '30px',
             width: 120,
             height: 31,
             margin: '16px 24px 16px 0',
-            background: 'rgba(255, 255, 255, 0.2)',
             alignItems: 'center',
           }}
-        />
+        >BigBrain</p>
         <Menu
-          theme="dark"
+          style={{
+            backgroundColor: '#3498db',
+            color: 'white',
+          }}
           mode="horizontal"
           defaultSelectedKeys={['2']}
           items={items}

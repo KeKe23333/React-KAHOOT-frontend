@@ -62,7 +62,7 @@ export default function Login () {
   return (
   <div className={styles.loginPage}>
   <div className={styles.loginBody}>
-    <span className={styles.webLogo}>BigBain Technology </span>
+    <span className={styles.webLogo}>BigBrain Technology </span>
     <div className={!showSignUpPanel ? styles.container : [styles.container, styles.rightPanelActive].join(' ')} id="login-box">
         <div className={[styles.formContainer, styles.signUpContainer].join(' ')}>
             <form onSubmit={handleRegister}>
