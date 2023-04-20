@@ -1,3 +1,14 @@
+# React 框架模仿kahoot前端
+这是我在学校学习前端期间的最后一个项目，经历了前一个JS的作业之后，采用react框架，避免了像原生js一样一直操作DOM. 历时3 周（实际上课程紧张加之需要实习，只用了一周）
+主要使用了antd的组件库. 实现了管理员的注册登录，游戏的增闪改查，一些通知和删除的double check类似的UE设计,游戏的开始和结束，还有发出问题的下一题，玩家通过指定id可以加入游戏等。
+
+# 使用
+分别进入frontend 和backend 文件夹，进行 npm install 安装依赖, 然后 npm start 或者 yarn start. 
+
+## 注意
+本项目用的是最新的 react 18 和 React-Route-Dom 6, 这个路由版本和5有很大的不一样，我使用了一个路由表文件（routes.jsx）来管理所有路由.
+并且现在React 已经渐渐弃用类式组件，鼓励使用函数式组件，所以这个项目没有类式组件.（没有this啦）
+
 # Assessment 4 - ReactJS: BigBrain
 
 1. Background & Motivation
