@@ -10,7 +10,7 @@
 并且现在React 已经渐渐弃用类式组件，鼓励使用函数式组件，所以这个项目没有类式组件.（没有this）
 # 功能模块
 ### 登录注册,退出登录, 管理员Auth
-
+![image]https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D1683689066.png
 ### 管理员的 Dashboard  游戏列表
 	-每一个游戏可以有n个question，对应的question需要设置答题时间和相应分数
 ### 管理员对游戏的增删改查
