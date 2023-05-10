@@ -68,10 +68,10 @@ export default function Login () {
         <div className={[styles.formContainer, styles.signUpContainer].join(' ')}>
             <form onSubmit={handleRegister}>
                 <h1>Register</h1>
-                <Input id='signUpUsername' label='name' placeholder='Useranme' value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
-                <Input id='signUpEmail' label='email' placeholder='Email' value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)} />
-                <Input id='signUpPassword' label='password' placeholder='Password' value={signUpPassword} onChange={(e) => setSignUpPassword(e.target.value)} />
-                <Input id='signUpConfirmPassword' label='password' placeholder='Confirm Password' value={signUpConfirmPassword} onChange={(e) => setSignUpConfirmPassword(e.target.value)} />
+                <Input id='signUpUsername' type='name' placeholder='Useranme' value={signUpUsername} onChange={(e) => setSignUpUsername(e.target.value)} />
+                <Input id='signUpEmail' type='email' placeholder='Email' value={signUpEmail} onChange={(e) => setSignUpEmail(e.target.value)} />
+                <Input id='signUpPassword' type='password' placeholder='Password' value={signUpPassword} onChange={(e) => setSignUpPassword(e.target.value)} />
+                <Input id='signUpConfirmPassword' type='password' placeholder='Confirm Password' value={signUpConfirmPassword} onChange={(e) => setSignUpConfirmPassword(e.target.value)} />
                 <button >REGISTER</button>
             </form>
         </div>
@@ -79,8 +79,8 @@ export default function Login () {
         <div className={[styles.formContainer, styles.signInContainer].join(' ')}>
             <form onSubmit={handleSignIn}>
                 <h1>Sign In</h1>
-                <Input id='signInEmail' label='email' placeholder='Email' value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
-                <Input id='signInPassword' label='password' placeholder='Password' value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
+                <Input id='signInEmail' type='email' placeholder='Email' value={signInEmail} onChange={(e) => setSignInEmail(e.target.value)} />
+                <Input id='signInPassword' type='password' placeholder='Password' value={signInPassword} onChange={(e) => setSignInPassword(e.target.value)} />
                 <a className={styles.forgetPass} href=''>Forget password?</a>
                 <button>SIGN IN</button>
             </form>
