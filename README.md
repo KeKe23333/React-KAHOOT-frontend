@@ -13,15 +13,19 @@
 ![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/%E6%9C%AA%E5%91%BD%E5%90%8D1683689066.png)
 ### 管理员的 Dashboard  游戏列表
 	-每一个游戏可以有n个question，对应的question需要设置答题时间和相应分数
+![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/Dashboard.png)
 ### 管理员对游戏的增删改查
 	-也可以对游戏里面的question 里的内容进行操作，包含数量和类型（单选or多选），最多可以有6个答案
+![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/game.png)
 ### 管理员开始或一个 game
 	- 会抛出一个特定 url 和一个粘贴按钮， 管理者可以提供给 player，从而进行游玩
 	- 相应的游戏状态会变成 started， 出现对应按钮，控制出题（next question）
+![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/start%20and%20end%20game.png)
 ### 管理员结束一个 game
 	- 结算所有玩家得分并且展示player得分 （still waiting for solve）
-
 ### player 进入游戏 （无需登录）
 	- 需要设置 name 和 输入游戏ID （粘贴url会自动输入ID）
+![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/player%20start%20game.png)
 ### player 进行答题
 	- 每道题会计时，时间到了无法选择答案，如果没有回答，则不得分.
+![image](https://github.com/KeKe23333/React-KAHOOT-frontend/blob/master/img/playing%20game.png)
